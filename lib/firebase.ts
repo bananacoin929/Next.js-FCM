@@ -1,4 +1,5 @@
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { NotificationPayload } from '../components/NotificationButton'
 import firebaseApp from "./initFirebase";
 
 const messaging = getMessaging(firebaseApp);
@@ -23,9 +24,9 @@ export const requestNotificationPermission = async (): Promise<string | null> =>
 };
 
 // Listen for foreground messages
-export const onMessageListener = () =>
+export const onMessageListener = (): Promise<NotificationPayload> =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-      resolve(payload);
+      resolve(payload as NotificationPayload); // Type assertion here
     });
   });
