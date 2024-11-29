@@ -22,9 +22,9 @@ const NotificationLogic: React.FC = () => {
   useEffect(() => {
     const handleForegroundNotification = async () => {
       const notificationPayload = await onMessageListener();
-      if (notificationPayload?.notification) {
+      if (notificationPayload?.data) {
         console.log("aaa")
-        setNotification(notificationPayload.notification);
+        setNotification(notificationPayload.data);
       }
     };
 

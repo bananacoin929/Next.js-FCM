@@ -1,5 +1,5 @@
 export interface NotificationPayloadType {
-    notification: {
+    data: {
       title: string;
       body: string;
       icon?: string; // Optional

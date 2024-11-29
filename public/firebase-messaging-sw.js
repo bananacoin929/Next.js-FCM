@@ -24,11 +24,11 @@ messaging.onBackgroundMessage((payload) => {
   console.log("Received background message: ", payload);
 
   // Show notification only if the payload contains notification details
-  if (payload.notification) {
-    const notificationTitle = payload.notification.title;
+  if (payload.data) {
+    const notificationTitle = payload.data.title;
     const notificationOptions = {
-      body: payload.notification.body,
-      icon: payload.notification.icon
+      body: payload.data.body,
+      icon: payload.data.icon
     };
 
     console.log("show")

@@ -46,7 +46,7 @@ export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
         const { title = "No title", body = "No body", icon } = payload.notification;
 
         resolve({
-          notification: {
+          data: {
             title,
             body,
             icon,
