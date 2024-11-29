@@ -12,7 +12,7 @@ interface Notification {
 
 const NotificationLogic: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
-  const [notification, setNotification] = useState<Notification | null>(null); // State to display foreground notifications
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const handleRequestPermission = async () => {
     const token = await requestNotificationPermission();
@@ -20,16 +20,15 @@ const NotificationLogic: React.FC = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = onMessageListener().then((payload) => {
-      if (payload?.notification) {
-        setNotification(payload.notification);
+    const handleForegroundNotification = async () => {
+      const notificationPayload = await onMessageListener();
+      if (notificationPayload?.notification) {
+        console.log("aaa")
+        setNotification(notificationPayload.notification);
       }
-    });
-
-    return () => {
-      // Clean up any listeners if necessary
-      unsubscribe.catch((err) => console.error("Error unsubscribing: ", err));
     };
+
+    handleForegroundNotification();
   }, []);
 
   return (

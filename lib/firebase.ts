@@ -11,9 +11,7 @@ if (isBrowser) {
 }
 
 // Request permission to send notifications
-export const requestNotificationPermission = async (): Promise<
-  string | null
-> => {
+export const requestNotificationPermission = async (): Promise<string | null> => {
   if (!isBrowser || !messaging) {
     console.warn("Notifications are not supported in this environment.");
     return null;
@@ -21,7 +19,7 @@ export const requestNotificationPermission = async (): Promise<
 
   try {
     const token = await getToken(messaging, {
-      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
+      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
     });
     if (token) {
       console.log("FCM Token:", token);
@@ -42,7 +40,7 @@ export const requestNotificationPermission = async (): Promise<
 export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
   new Promise((resolve) => {
     onMessage(messaging!, (payload) => {
-      // Handle notification only if the app is in the foreground
+      // Only handle notifications if the app is in the foreground
       if (document.visibilityState === "visible" && payload.notification) {
         const { title = "No title", body = "No body", icon } = payload.notification;
 
@@ -54,7 +52,8 @@ export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
           },
         });
       } else {
-        resolve(null); // Ignore messages if not in the foreground
+        console.log("Notification ignored because app is not in the foreground.");
+        resolve(null); // Ignore background notifications
       }
     });
   });
