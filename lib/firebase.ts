@@ -1,12 +1,14 @@
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import firebaseApp from "./initFirebase";
-import { NotificationPayloadType } from "@/types/NotificatinPayloadType";
+import { NotificationPayloadType } from "../types/NotificatinPayloadType";
 
 const isBrowser =
   typeof window !== "undefined" && typeof navigator !== "undefined";
 
 let messaging: ReturnType<typeof getMessaging> | null = null;
-messaging = getMessaging(firebaseApp); // Initialize messaging only in the browser
+if (isBrowser) {
+  messaging = getMessaging(firebaseApp); // Initialize messaging only in the browser
+}
 
 // Request permission to send notifications
 export const requestNotificationPermission = async (): Promise<
@@ -36,11 +38,12 @@ export const requestNotificationPermission = async (): Promise<
   }
 };
 
+// Listen for foreground messages
 export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
   new Promise((resolve) => {
     onMessage(messaging!, (payload) => {
-      if (payload.notification) {
-        // Narrow the type to ensure notification is not undefined
+      // Handle notification only if the app is in the foreground
+      if (document.visibilityState === "visible" && payload.notification) {
         const { title = "No title", body = "No body", icon } = payload.notification;
 
         resolve({
@@ -51,8 +54,7 @@ export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
           },
         });
       } else {
-        console.warn("No notification payload received.");
-        resolve(null);
+        resolve(null); // Ignore messages if not in the foreground
       }
     });
   });

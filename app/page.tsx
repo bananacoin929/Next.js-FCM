@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
 import { useEffect } from "react";
 import NotificationButton from "../components/NotificationButton";
 
+// Custom hook to register the service worker
 const useServiceWorker = () => {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -18,10 +19,9 @@ const useServiceWorker = () => {
   }, []);
 };
 
-
 export default function HomePage() {
-  useServiceWorker()
-  
+  useServiceWorker();
+
   return (
     <main>
       <h1>Firebase Notifications in Next.js</h1>

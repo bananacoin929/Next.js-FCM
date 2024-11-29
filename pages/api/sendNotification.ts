@@ -13,6 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     const { token } = req.body;
 
+    console.log(token)
+
     const message = {
       notification: {
         title: 'Time Alert',
