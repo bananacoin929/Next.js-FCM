@@ -31,6 +31,8 @@ messaging.onBackgroundMessage((payload) => {
       icon: payload.notification.icon
     };
 
+    console.log("show")
+
     self.registration.showNotification(notificationTitle, notificationOptions);
   }
 });

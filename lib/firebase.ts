@@ -42,6 +42,7 @@ export const onMessageListener = (): Promise<NotificationPayloadType | null> =>
     onMessage(messaging!, (payload) => {
       // Only handle notifications if the app is in the foreground
       if (document.visibilityState === "visible" && payload.notification) {
+        console.log("OnMessageListener")
         const { title = "No title", body = "No body", icon } = payload.notification;
 
         resolve({
